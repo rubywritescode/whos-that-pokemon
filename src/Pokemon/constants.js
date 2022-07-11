@@ -1,0 +1,1 @@
+export const red = "#FB1B1B";
