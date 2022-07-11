@@ -1,4 +1,4 @@
-import { AbsoluteFill, Audio, Series } from "remotion";
+import { AbsoluteFill, Audio, interpolate, Series, useCurrentFrame } from "remotion";
 import Pokeball from "./Pokemon/Pokeball";
 import BattleBackground from "./Pokemon/BattleBackground";
 import Title from "./Pokemon/Title";
@@ -12,6 +12,12 @@ import pokemonAudio from "./Pokemon/assets/poke-audio.mp3";
 import wendyAudio from "./Pokemon/assets/wendy-audio.mp3";
 
 const Pokemon = () => {
+  const frame = useCurrentFrame();
+  const wendyVolume = interpolate(frame, [120, 180], [0.2, 0.5], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  })
+
   return (
     <>
       <Series>
@@ -29,7 +35,7 @@ const Pokemon = () => {
           </BattleBackground>
         </Series.Sequence>
         <Series.Sequence durationInFrames={170} offset={-180} name="Wendy Audio">
-          <Audio src={wendyAudio} volume={0.2} />
+          <Audio src={wendyAudio} volume={wendyVolume} />
         </Series.Sequence>
         <Series.Sequence durationInFrames={40} offset={-30} name="Pokemon Sting Audio">
           <Audio src={pokemonAudio} startFrom={105} endAt={180} />
